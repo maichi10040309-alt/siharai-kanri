@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>仕入・支払管理</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">支</span><div><strong>仕入・支払管理</strong><small>Payment Manager</small></div></div>
+    <nav id="nav">
+      <button data-view="dashboard" class="active">ホーム</button>
+      <button data-view="payments">請求・支払一覧</button>
+      <button data-view="summary">経費集計</button>
+      <button data-view="vendors">取引先マスタ</button>
+      <button data-view="bank">全銀ファイル作成</button>
+      <button data-view="settings">設定・バックアップ</button>
+    </nav>
+    <div class="storage-note">データはこの端末のブラウザ内に保存されます。</div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div><p class="eyebrow">GOOD LIFE</p><h1 id="pageTitle">ホーム</h1></div>
+      <button class="primary" id="quickAdd">＋ 請求を入力</button>
+    </header>
+
+    <section id="dashboard" class="view active">
+      <div class="monthbar"><button id="prevMonth">‹</button><strong id="dashMonth"></strong><button id="nextMonth">›</button></div>
+      <div class="cards" id="dashboardCards"></div>
+      <div class="grid two">
+        <article class="panel"><div class="panel-head"><h2>部門別支払額</h2></div><div id="departmentBars" class="bars"></div></article>
+        <article class="panel"><div class="panel-head"><h2>今月の支払状況</h2></div><div id="statusSummary"></div></article>
+      </div>
+      <article class="panel"><div class="panel-head"><h2>最近入力した請求</h2><button class="link" data-go="payments">すべて見る</button></div><div id="recentPayments"></div></article>
+    </section>
+
+    <section id="payments" class="view">
+      <div class="toolbar">
+        <input type="month" id="paymentMonthFilter">
+        <select id="paymentDepartmentFilter"><option value="">全部門</option></select>
+        <select id="paymentStatusFilter"><option value="">全ステータス</option><option>未確認</option><option>支払予定</option><option>支払済</option></select>
+        <input type="search" id="paymentSearch" placeholder="取引先・摘要を検索">
+        <button class="primary" id="addPayment">＋ 請求を入力</button>
+      </div>
+      <article class="panel table-wrap"><table><thead><tr><th>請求月</th><th>部門</th><th>取引先</th><th>支払予定日</th><th>支払額</th><th>状態</th><th></th></tr></thead><tbody id="paymentRows"></tbody></table></article>
+    </section>
+
+    <section id="summary" class="view">
+      <div class="toolbar"><input type="month" id="summaryFrom"><span>〜</span><input type="month" id="summaryTo"><select id="summaryDepartment"><option value="">全部門</option></select></div>
+      <div class="cards" id="summaryCards"></div>
+      <div class="grid two">
+        <article class="panel"><div class="panel-head"><h2>部門別</h2></div><div id="summaryDepartments" class="bars"></div></article>
+        <article class="panel"><div class="panel-head"><h2>科目別</h2></div><div id="summaryCategories"></div></article>
+      </div>
+      <article class="panel"><div class="panel-head"><h2>月別推移</h2></div><div id="monthlyTrend" class="trend"></div></article>
+    </section>
+
+    <section id="vendors" class="view">
+      <div class="toolbar"><input type="search" id="vendorSearch" placeholder="取引先を検索"><button class="primary" id="addVendor">＋ 取引先を追加</button></div>
+      <article class="panel table-wrap"><table><thead><tr><th>取引先名</th><th>振込先</th><th>口座</th><th>受取人名（カナ）</th><th></th></tr></thead><tbody id="vendorRows"></tbody></table></article>
+    </section>
+
+    <section id="bank" class="view">
+      <div class="notice"><strong>紀陽銀行 総合振込（全銀協120バイト形式）</strong><span>支払予定の請求から振込データを作成します。出力前にエラーがないことを確認してください。</span></div>
+      <div class="grid bank-grid">
+        <article class="panel form-card"><h2>出力条件</h2><label>振込指定日<input type="date" id="transferDate"></label><label>対象の請求月<input type="month" id="bankMonth"></label><label>対象部門<select id="bankDepartment"><option value="">全部門</option></select></label><button class="secondary" id="bankPreview">内容を確認</button></article>
+        <article class="panel"><div class="panel-head"><h2>出力対象</h2><strong id="bankTotal">0件 / ¥0</strong></div><div id="bankErrors"></div><div id="bankTargets"></div><button class="primary wide" id="downloadZengin" disabled>全銀ファイルをダウンロード</button></article>
+      </div>
+    </section>
+
+    <section id="settings" class="view">
+      <div class="grid two">
+        <article class="panel form-card"><h2>振込依頼人情報</h2><label>委託者コード<input id="clientCode" maxlength="10" inputmode="numeric"></label><label>振込依頼人名（半角カナ）<input id="clientName" maxlength="40"></label><label>紀陽銀行 支店番号<input id="originBranchCode" maxlength="3" inputmode="numeric"></label><label>支店名（半角カナ）<input id="originBranchName" maxlength="15"></label><label>預金種目<select id="originAccountType"><option value="1">普通</option><option value="2">当座</option></select></label><label>口座番号<input id="originAccountNumber" maxlength="7" inputmode="numeric"></label><button class="primary" id="saveSettings">保存</button></article>
+        <article class="panel form-card"><h2>部門</h2><div id="departmentSettings"></div><div class="inline"><input id="newDepartment" placeholder="部門名"><button id="addDepartment">追加</button></div><h2 class="spaced">バックアップ</h2><p class="muted">端末変更やブラウザ初期化に備え、定期的に保存してください。</p><div class="button-row"><button id="exportBackup">バックアップを書き出す</button><label class="button-like">バックアップを読み込む<input type="file" id="importBackup" accept="application/json" hidden></label></div></article>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="paymentDialog"><form method="dialog" id="paymentForm"><div class="dialog-head"><div><p class="eyebrow">INVOICE</p><h2>請求を入力</h2></div><button value="cancel" class="icon-btn" aria-label="閉じる">×</button></div><input type="hidden" id="paymentId"><div class="form-grid"><label>請求月<input type="month" id="invoiceMonth" required></label><label>部門<select id="paymentDepartment" required></select></label><label class="span-2">取引先<select id="paymentVendor" required></select></label><label>請求日<input type="date" id="invoiceDate"></label><label>支払予定日<input type="date" id="dueDate" required></label><label>状態<select id="paymentStatus"><option>未確認</option><option>支払予定</option><option>支払済</option></select></label><label>顧客番号 / EDI情報<input id="ediInfo" maxlength="20"></label><label class="span-2">備考<input id="paymentNote"></label></div><div class="line-head"><h3>経費明細</h3><button type="button" id="addLine">＋ 科目を追加</button></div><div id="expenseLines"></div><div class="dialog-total"><span>支払額</span><strong id="paymentTotal">¥0</strong></div><div class="dialog-actions"><button value="cancel">キャンセル</button><button type="submit" class="primary" value="default">保存</button></div></form></dialog>
+
+  <dialog id="vendorDialog"><form method="dialog" id="vendorForm"><div class="dialog-head"><div><p class="eyebrow">VENDOR</p><h2>取引先マスタ</h2></div><button value="cancel" class="icon-btn">×</button></div><input type="hidden" id="vendorId"><div class="form-grid"><label class="span-2">取引先名<input id="vendorName" required></label><label>銀行番号<input id="vendorBankCode" maxlength="4" inputmode="numeric" required></label><label>銀行名（半角カナ）<input id="vendorBankName" maxlength="15" required></label><label>支店番号<input id="vendorBranchCode" maxlength="3" inputmode="numeric" required></label><label>支店名（半角カナ）<input id="vendorBranchName" maxlength="15" required></label><label>預金種目<select id="vendorAccountType"><option value="1">普通</option><option value="2">当座</option><option value="4">貯蓄</option></select></label><label>口座番号<input id="vendorAccountNumber" maxlength="7" inputmode="numeric" required></label><label class="span-2">受取人名（半角カナ）<input id="vendorRecipientName" maxlength="30" required></label></div><div class="dialog-actions"><button value="cancel">キャンセル</button><button type="submit" class="primary" value="default">保存</button></div></form></dialog>
+
+  <div id="toast" role="status"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
