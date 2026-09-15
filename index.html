@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>仕入・支払管理</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
   <aside class="sidebar">
@@ -41,6 +41,7 @@
       <div class="batch-controls panel">
         <label>請求月<input type="month" id="batchMonth"></label>
         <label>部署<select id="batchDepartment"></select></label>
+        <label>課・事業所<select id="batchSection"></select></label>
         <label>共通の支払予定日<input type="date" id="batchDueDate"></label>
         <button class="primary" id="saveBatch">入力内容をまとめて保存</button>
       </div>
@@ -56,11 +57,11 @@
         <input type="search" id="paymentSearch" placeholder="取引先・摘要を検索">
         <button class="primary" id="addPayment">＋ 請求を入力</button>
       </div>
-      <article class="panel table-wrap"><table><thead><tr><th>請求月</th><th>部門</th><th>取引先</th><th>支払予定日</th><th>支払額</th><th>状態</th><th></th></tr></thead><tbody id="paymentRows"></tbody></table></article>
+      <article class="panel table-wrap"><table><thead><tr><th>請求月</th><th>部署</th><th>課・事業所</th><th>取引先</th><th>支払予定日</th><th>支払額</th><th>状態</th><th></th></tr></thead><tbody id="paymentRows"></tbody></table></article>
     </section>
 
     <section id="summary" class="view">
-      <div class="toolbar"><input type="month" id="summaryFrom"><span>〜</span><input type="month" id="summaryTo"><select id="summaryDepartment"><option value="">全部門</option></select></div>
+      <div class="toolbar"><input type="month" id="summaryFrom"><span>〜</span><input type="month" id="summaryTo"><select id="summaryDepartment"><option value="">全部署</option></select><select id="summarySection"><option value="">全課・事業所</option></select></div>
       <div class="cards" id="summaryCards"></div>
       <div class="grid two">
         <article class="panel"><div class="panel-head"><h2>部門別</h2></div><div id="summaryDepartments" class="bars"></div></article>
@@ -85,16 +86,16 @@
     <section id="settings" class="view">
       <div class="grid two">
         <article class="panel form-card"><h2>振込依頼人情報</h2><label>委託者コード<input id="clientCode" maxlength="10" inputmode="numeric"></label><label>振込依頼人名（半角カナ）<input id="clientName" maxlength="40"></label><label>紀陽銀行 支店番号<input id="originBranchCode" maxlength="3" inputmode="numeric"></label><label>支店名（半角カナ）<input id="originBranchName" maxlength="15"></label><label>預金種目<select id="originAccountType"><option value="1">普通</option><option value="2">当座</option></select></label><label>口座番号<input id="originAccountNumber" maxlength="7" inputmode="numeric"></label><button class="primary" id="saveSettings">保存</button></article>
-        <article class="panel form-card"><h2>部門</h2><div id="departmentSettings"></div><div class="inline"><input id="newDepartment" placeholder="部門名"><button id="addDepartment">追加</button></div><h2 class="spaced">バックアップ</h2><p class="muted">端末変更やブラウザ初期化に備え、定期的に保存してください。</p><div class="button-row"><button id="exportBackup">バックアップを書き出す</button><label class="button-like">バックアップを読み込む<input type="file" id="importBackup" accept="application/json" hidden></label></div></article>
+        <article class="panel form-card"><h2>部署</h2><div id="departmentSettings"></div><div class="inline"><input id="newDepartment" placeholder="部署名"><button id="addDepartment">追加</button></div><h2 class="spaced">課・事業所</h2><label>部署<select id="sectionDepartment"></select></label><div id="sectionSettings"></div><div class="inline"><input id="newSection" placeholder="課・事業所名"><button id="addSection">追加</button></div><h2 class="spaced">バックアップ</h2><p class="muted">端末変更やブラウザ初期化に備え、定期的に保存してください。</p><div class="button-row"><button id="exportBackup">バックアップを書き出す</button><label class="button-like">バックアップを読み込む<input type="file" id="importBackup" accept="application/json" hidden></label></div></article>
       </div>
     </section>
   </main>
 
-  <dialog id="paymentDialog"><form method="dialog" id="paymentForm"><div class="dialog-head"><div><p class="eyebrow">INVOICE</p><h2>請求を入力</h2></div><button value="cancel" class="icon-btn" aria-label="閉じる">×</button></div><input type="hidden" id="paymentId"><div class="form-grid"><label>請求月<input type="month" id="invoiceMonth" required></label><label>部門<select id="paymentDepartment" required></select></label><label class="span-2">取引先<select id="paymentVendor" required></select></label><label>請求日<input type="date" id="invoiceDate"></label><label>支払予定日<input type="date" id="dueDate" required></label><label>状態<select id="paymentStatus"><option>未確認</option><option>支払予定</option><option>支払済</option></select></label><label>顧客番号 / EDI情報<input id="ediInfo" maxlength="20"></label><label class="span-2">備考<input id="paymentNote"></label></div><div class="line-head"><h3>経費明細</h3><button type="button" id="addLine">＋ 科目を追加</button></div><div id="expenseLines"></div><div class="dialog-total"><span>支払額</span><strong id="paymentTotal">¥0</strong></div><div class="dialog-actions"><button value="cancel">キャンセル</button><button type="submit" class="primary" value="default">保存</button></div></form></dialog>
+  <dialog id="paymentDialog"><form method="dialog" id="paymentForm"><div class="dialog-head"><div><p class="eyebrow">INVOICE</p><h2>請求を入力</h2></div><button value="cancel" class="icon-btn" aria-label="閉じる">×</button></div><input type="hidden" id="paymentId"><div class="form-grid"><label>請求月<input type="month" id="invoiceMonth" required></label><label>部署<select id="paymentDepartment" required></select></label><label>課・事業所<select id="paymentSection"></select></label><label>取引先<select id="paymentVendor" required></select></label><label>請求日<input type="date" id="invoiceDate"></label><label>支払予定日<input type="date" id="dueDate" required></label><label>状態<select id="paymentStatus"><option>未確認</option><option>支払予定</option><option>支払済</option></select></label><label>顧客番号 / EDI情報<input id="ediInfo" maxlength="20"></label><label class="span-2">備考<input id="paymentNote"></label></div><div class="line-head"><h3>経費明細</h3><button type="button" id="addLine">＋ 科目を追加</button></div><div id="expenseLines"></div><div class="dialog-total"><span>支払額</span><strong id="paymentTotal">¥0</strong></div><div class="dialog-actions"><button value="cancel">キャンセル</button><button type="submit" class="primary" value="default">保存</button></div></form></dialog>
 
   <dialog id="vendorDialog"><form method="dialog" id="vendorForm"><div class="dialog-head"><div><p class="eyebrow">VENDOR</p><h2>取引先マスタ</h2></div><button value="cancel" class="icon-btn">×</button></div><input type="hidden" id="vendorId"><div class="form-grid"><label class="span-2">取引先名<input id="vendorName" required></label><fieldset class="span-2 department-field"><legend>対象部署（複数選択可）</legend><div id="vendorDepartments" class="check-grid"></div></fieldset><label>銀行番号<input id="vendorBankCode" maxlength="4" inputmode="numeric" required></label><label>銀行名（半角カナ）<input id="vendorBankName" maxlength="15" required></label><label>支店番号<input id="vendorBranchCode" maxlength="3" inputmode="numeric" required></label><label>支店名（半角カナ）<input id="vendorBranchName" maxlength="15" required></label><label>預金種目<select id="vendorAccountType"><option value="1">普通</option><option value="2">当座</option><option value="4">貯蓄</option></select></label><label>口座番号<input id="vendorAccountNumber" maxlength="7" inputmode="numeric" required></label><label class="span-2">受取人名（半角カナ）<input id="vendorRecipientName" maxlength="30" required></label></div><div class="dialog-actions"><button value="cancel">キャンセル</button><button type="submit" class="primary" value="default">保存</button></div></form></dialog>
 
   <div id="toast" role="status"></div>
-  <script type="module" src="app.js"></script>
+  <script type="module" src="app.js?v=3"></script>
 </body>
 </html>
