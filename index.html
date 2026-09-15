@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>仕入・支払管理</title>
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
   <aside class="sidebar">
@@ -96,6 +96,6 @@
   <dialog id="vendorDialog"><form method="dialog" id="vendorForm"><div class="dialog-head"><div><p class="eyebrow">VENDOR</p><h2>取引先マスタ</h2></div><button value="cancel" class="icon-btn">×</button></div><input type="hidden" id="vendorId"><div class="form-grid"><label class="span-2">取引先名<input id="vendorName" required></label><fieldset class="span-2 department-field"><legend>対象部署（複数選択可）</legend><div id="vendorDepartments" class="check-grid"></div></fieldset><label>銀行番号<input id="vendorBankCode" maxlength="4" inputmode="numeric" required></label><label>銀行名（半角カナ）<input id="vendorBankName" maxlength="15" required></label><label>支店番号<input id="vendorBranchCode" maxlength="3" inputmode="numeric" required></label><label>支店名（半角カナ）<input id="vendorBranchName" maxlength="15" required></label><label>預金種目<select id="vendorAccountType"><option value="1">普通</option><option value="2">当座</option><option value="4">貯蓄</option></select></label><label>口座番号<input id="vendorAccountNumber" maxlength="7" inputmode="numeric" required></label><label class="span-2">受取人名（半角カナ）<input id="vendorRecipientName" maxlength="30" required></label></div><div class="dialog-actions"><button value="cancel">キャンセル</button><button type="submit" class="primary" value="default">保存</button></div></form></dialog>
 
   <div id="toast" role="status"></div>
-  <script type="module" src="app.js?v=4"></script>
+  <script type="module" src="app.js?v=5"></script>
 </body>
 </html>
