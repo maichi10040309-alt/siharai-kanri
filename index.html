@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>仕入・支払管理</title>
-  <link rel="stylesheet" href="styles.css?v=8">
+  <link rel="stylesheet" href="styles.css?v=9">
 </head>
 <body>
   <aside class="sidebar">
@@ -57,6 +57,10 @@
         <input type="search" id="paymentSearch" placeholder="取引先・摘要を検索">
         <button class="primary" id="addPayment">＋ 請求を入力</button>
       </div>
+      <div class="payment-department-filter" aria-label="部署で絞り込み">
+        <span>部署で絞り込み</span>
+        <div id="paymentDepartmentChips" class="filter-chips"></div>
+      </div>
       <article class="panel table-wrap"><table><thead><tr><th>請求月</th><th>部署</th><th>課・事業所</th><th>取引先</th><th>支払予定日</th><th>支払額</th><th>状態</th><th></th></tr></thead><tbody id="paymentRows"></tbody></table></article>
     </section>
 
@@ -96,6 +100,6 @@
   <dialog id="vendorDialog"><form method="dialog" id="vendorForm"><div class="dialog-head"><div><p class="eyebrow">VENDOR</p><h2>取引先マスタ</h2></div><button value="cancel" class="icon-btn">×</button></div><input type="hidden" id="vendorId"><div class="form-grid"><label class="span-2">取引先名<input id="vendorName" required></label><fieldset class="span-2 department-field"><legend>対象部署（複数選択可）</legend><div id="vendorDepartments" class="check-grid"></div></fieldset><label>銀行番号<input id="vendorBankCode" maxlength="4" inputmode="numeric" required></label><label>銀行名（半角カナ）<input id="vendorBankName" maxlength="15" required></label><label>支店番号<input id="vendorBranchCode" maxlength="3" inputmode="numeric" required></label><label>支店名（半角カナ）<input id="vendorBranchName" maxlength="15" required></label><label>預金種目<select id="vendorAccountType"><option value="1">普通</option><option value="2">当座</option><option value="4">貯蓄</option></select></label><label>口座番号<input id="vendorAccountNumber" maxlength="7" inputmode="numeric" required></label><label class="span-2">受取人名（半角カナ）<input id="vendorRecipientName" maxlength="30" required></label></div><div class="dialog-actions"><button value="cancel">キャンセル</button><button type="submit" class="primary" value="default">保存</button></div></form></dialog>
 
   <div id="toast" role="status"></div>
-  <script type="module" src="app.js?v=8"></script>
+  <script type="module" src="app.js?v=9"></script>
 </body>
 </html>
