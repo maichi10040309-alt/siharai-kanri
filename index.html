@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>仕入・支払管理</title>
-  <link rel="stylesheet" href="styles.css?v=11">
+  <link rel="stylesheet" href="styles.css?v=12">
 </head>
 <body>
   <aside class="sidebar">
@@ -90,7 +90,7 @@
     <section id="settings" class="view">
       <div class="grid two">
         <article class="panel form-card"><h2>振込依頼人情報</h2><label>委託者コード<input id="clientCode" maxlength="10" inputmode="numeric"></label><label>振込依頼人名（半角カナ）<input id="clientName" maxlength="40"></label><label>紀陽銀行 支店番号<input id="originBranchCode" maxlength="3" inputmode="numeric"></label><label>支店名（半角カナ）<input id="originBranchName" maxlength="15"></label><label>預金種目<select id="originAccountType"><option value="1">普通</option><option value="2">当座</option></select></label><label>口座番号<input id="originAccountNumber" maxlength="7" inputmode="numeric"></label><button class="primary" id="saveSettings">保存</button></article>
-        <article class="panel form-card"><h2>部署</h2><div id="departmentSettings"></div><div class="inline"><input id="newDepartment" placeholder="部署名"><button id="addDepartment">追加</button></div><h2 class="spaced">課・事業所</h2><label>部署<select id="sectionDepartment"></select></label><div id="sectionSettings"></div><div class="inline"><input id="newSection" placeholder="課・事業所名"><button id="addSection">追加</button></div><h2 class="spaced">バックアップ</h2><p class="muted">端末変更やブラウザ初期化に備え、定期的に保存してください。</p><div class="button-row"><button id="exportBackup">バックアップを書き出す</button><label class="button-like">バックアップを読み込む<input type="file" id="importBackup" accept="application/json" hidden></label></div></article>
+        <article class="panel form-card"><h2>部署</h2><div id="departmentSettings"></div><div class="inline"><input id="newDepartment" placeholder="部署名"><button id="addDepartment">追加</button></div><h2 class="spaced">課・事業所</h2><label>部署<select id="sectionDepartment"></select></label><div id="sectionSettings"></div><div class="inline"><input id="newSection" placeholder="課・事業所名"><button id="addSection">追加</button></div><h2 class="spaced">科目</h2><p class="muted">名称を変更すると、保存済みの請求明細にも反映されます。</p><div id="categorySettings"></div><div class="inline"><input id="newCategory" placeholder="新しい科目名"><button id="addCategory">追加</button></div><h2 class="spaced">バックアップ</h2><p class="muted">端末変更やブラウザ初期化に備え、定期的に保存してください。</p><div class="button-row"><button id="exportBackup">バックアップを書き出す</button><label class="button-like">バックアップを読み込む<input type="file" id="importBackup" accept="application/json" hidden></label></div></article>
       </div>
     </section>
   </main>
@@ -100,6 +100,6 @@
   <dialog id="vendorDialog"><form method="dialog" id="vendorForm"><div class="dialog-head"><div><p class="eyebrow">VENDOR</p><h2>取引先マスタ</h2></div><button value="cancel" class="icon-btn">×</button></div><input type="hidden" id="vendorId"><div class="form-grid"><label class="span-2">取引先名<input id="vendorName" required></label><fieldset class="span-2 department-field"><legend>対象部署（複数選択可）</legend><div id="vendorDepartments" class="check-grid"></div></fieldset><label>銀行番号<input id="vendorBankCode" maxlength="4" inputmode="numeric" required></label><label>銀行名（半角カナ）<input id="vendorBankName" maxlength="15" required></label><label>支店番号<input id="vendorBranchCode" maxlength="3" inputmode="numeric" required></label><label>支店名（半角カナ）<input id="vendorBranchName" maxlength="15" required></label><label>預金種目<select id="vendorAccountType"><option value="1">普通</option><option value="2">当座</option><option value="4">貯蓄</option></select></label><label>口座番号<input id="vendorAccountNumber" maxlength="7" inputmode="numeric" required></label><label class="span-2">受取人名（半角カナ）<input id="vendorRecipientName" maxlength="30" required></label></div><div class="dialog-actions"><button value="cancel">キャンセル</button><button type="submit" class="primary" value="default">保存</button></div></form></dialog>
 
   <div id="toast" role="status"></div>
-  <script type="module" src="app.js?v=11"></script>
+  <script type="module" src="app.js?v=12"></script>
 </body>
 </html>
